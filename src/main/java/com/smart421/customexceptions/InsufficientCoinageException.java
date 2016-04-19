@@ -1,4 +1,4 @@
-package com.smart421;
+package com.smart421.customexceptions;
 
 public class InsufficientCoinageException extends Exception{
 

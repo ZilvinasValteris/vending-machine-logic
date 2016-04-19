@@ -1,14 +1,15 @@
 package com.smart421;
 
+import com.smart421.customexceptions.InsufficientCoinageException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ChangeCalculatorTest {
 
@@ -17,7 +18,7 @@ public class ChangeCalculatorTest {
     @Before
     public void setup()
     {
-        changeCalculator = new ChangeCalculator();
+        changeCalculator = new ChangeCalculator("src\\test\\resources\\test.properties");
     }
 
     @Test
@@ -133,6 +134,18 @@ public class ChangeCalculatorTest {
     public void getChangeForTest() throws IOException, InsufficientCoinageException {
         List<Coin> coins = (List<Coin>) changeCalculator.getChangeFor(1200);
         List<Integer> coinCount = new ArrayList<Integer>();
+
+//        Map<Integer, Integer> coinsAvailable = new HashMap<Integer, Integer>();
+//        coinsAvailable.put(100, 11);
+//        coinsAvailable.put(50, 24);
+//        coinsAvailable.put(20, 0);
+//        coinsAvailable.put(10, 99);
+//        coinsAvailable.put(5, 200);
+//        coinsAvailable.put(2, 11);
+//        coinsAvailable.put(1, 23);
+//
+//        PropertiesManager propertiesManager = mock(PropertiesManager.class);
+//        when(propertiesManager.loadProperties()).thenReturn(coinsAvailable);
 
         for (Coin coin: coins)
         {

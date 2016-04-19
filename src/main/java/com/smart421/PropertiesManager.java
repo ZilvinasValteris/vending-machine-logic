@@ -1,32 +1,25 @@
 package com.smart421;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 public class PropertiesManager {
 
-    private Map<Integer, Integer> coinsAvailable;
-    private InputStream inputStream;
-    private FileOutputStream fileOutputStream;
     private Properties properties;
-
-    // Should potentially live in Enum class or just some one common place
-    // The problem is that in ChangeCalculator class these coin denominations are needed as ints
-    private List<String> COIN_VALUES = Arrays.asList("100", "50", "20", "10", "5", "2", "1");
+    private List<String> COIN_VALUES;
     private String propertiesFileName;
 
-    public PropertiesManager(String propertiesFileName) {
+    PropertiesManager(String propertiesFileName, List<String> COIN_VALUES_AS_STRINGS)
+    {
         this.propertiesFileName = propertiesFileName;
         this.properties = new Properties();
+        this.COIN_VALUES = COIN_VALUES_AS_STRINGS;
     }
 
-    public Map<Integer, Integer> loadProperties() throws IOException {
-
-        coinsAvailable = new HashMap<Integer, Integer>();
-        inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+    public Map<Integer, Integer> loadProperties() throws IOException
+    {
+        Map<Integer, Integer> coinsAvailable = new HashMap<Integer, Integer>();
+        FileInputStream inputStream = new FileInputStream(propertiesFileName); //getClass().getClassLoader().getResourceAsStream(propertiesFileName);
 
         if(inputStream != null)
         {
@@ -50,18 +43,15 @@ public class PropertiesManager {
         {
             throw new NumberFormatException("Only integers expected in the property file!");
         }
-        finally
-        {
-            inputStream.close();
-        }
+
+        inputStream.close();
 
         return coinsAvailable;
     }
 
-    public void updateProperties(Map<String, String> coinsRemaining) throws IOException {
-
-        // Shall I deal with some exceptions here?
-        fileOutputStream = new FileOutputStream(propertiesFileName);
+    public void updateProperties(Map<String, String> coinsRemaining) throws IOException
+    {
+        FileOutputStream outputStream = new FileOutputStream(propertiesFileName);
 
         for(int i = 0; i < coinsRemaining.size(); i++)
         {
@@ -70,8 +60,16 @@ public class PropertiesManager {
             properties.setProperty(key, value);
         }
 
-        properties.store(fileOutputStream, null);
-        fileOutputStream.close();
+        if(outputStream != null)
+        {
+            properties.store(outputStream, null);
+        }
+        else
+        {
+            throw new FileNotFoundException("Properties file " + propertiesFileName + " not found");
+        }
+
+        outputStream.close();
     }
 
 }

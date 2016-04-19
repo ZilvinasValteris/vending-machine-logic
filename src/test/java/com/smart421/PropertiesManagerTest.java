@@ -35,4 +35,22 @@ public class PropertiesManagerTest {
 
         assertEquals(expectedCoinsAvailable, actualCoinsAvailable);
     }
+
+
+
+    // You'll need to read values from properties file after the update to test this properly
+    @Test
+    public void updatePropertiesTest() throws IOException {
+        Map<String, String> expectedCoinsAvailable = new HashMap<String, String>();
+        expectedCoinsAvailable.put("100", "11");
+        expectedCoinsAvailable.put("50", "24");
+        expectedCoinsAvailable.put("20", "0");
+        expectedCoinsAvailable.put("10", "99");
+        expectedCoinsAvailable.put("5", "200");
+        expectedCoinsAvailable.put("2", "11");
+        expectedCoinsAvailable.put("1", "0");
+
+        propertiesManager.updateProperties(expectedCoinsAvailable);
+
+    }
 }

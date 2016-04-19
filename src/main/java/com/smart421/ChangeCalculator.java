@@ -12,17 +12,15 @@ public class ChangeCalculator {
         Coin coin;
         int denominationCount;
         int penceRemaining = pence;
-        int coinsTotal = 0;
-        Collection<Coin> coins = new ArrayList<Coin>();
+        List<Coin> coins = new ArrayList<Coin>();
 
-        for(int i = 0; i < COIN_VALUES.size(); i++)
+        for (Integer COIN_VALUE : COIN_VALUES)
         {
-            denominationCount = penceRemaining/COIN_VALUES.get(i);
-//            coinsTotal = coinsTotal + denominationCount; // probably not even needed for part one
-            penceRemaining = penceRemaining - denominationCount * COIN_VALUES.get(i);
+            denominationCount = penceRemaining / COIN_VALUE;
+            penceRemaining = penceRemaining - denominationCount * COIN_VALUE;
 
             coin = new Coin();
-            coin.setDenomination(COIN_VALUES.get(i));
+            coin.setDenomination(COIN_VALUE);
             coin.setCount(denominationCount);
             coins.add(coin);
         }
@@ -34,7 +32,7 @@ public class ChangeCalculator {
     // What is the standard practice reading from the properties file? Do I need a separate service/class for that?
     // Shall use in-class map of coins just to nail the logic first?
     // TODO: throw InsufficientCoinageException
-    public Collection<Coin> getChangeFor(int pence) throws IOException
+    public Collection<Coin> getChangeFor(int pence) throws IOException, InsufficientCoinageException
     {
 
         PropertiesManager propertiesManager = new PropertiesManager("coin-inventory.properties");
@@ -47,24 +45,35 @@ public class ChangeCalculator {
         Coin coin;
         int denominationCount;
         int penceRemaining = pence;
-        Collection<Coin> coins = new ArrayList<Coin>();
+        List<Coin> coins = new ArrayList<Coin>();
 
-        for(int i = 0; i < COIN_VALUES.size(); i++)
+        for (Integer COIN_VALUE : COIN_VALUES)
         {
-            denominationCount = penceRemaining/COIN_VALUES.get(i);
-            if(denominationCount > coinsAvailable.get(COIN_VALUES.get(i)))
-            {
-                denominationCount = coinsAvailable.get(COIN_VALUES.get(i));
+            denominationCount = penceRemaining / COIN_VALUE;
+            if (denominationCount > coinsAvailable.get(COIN_VALUE)) {
+                denominationCount = coinsAvailable.get(COIN_VALUE);
             }
-            penceRemaining = penceRemaining - denominationCount * COIN_VALUES.get(i);
+            penceRemaining = penceRemaining - denominationCount * COIN_VALUE;
 
             coin = new Coin();
-            coin.setDenomination(COIN_VALUES.get(i));
+            coin.setDenomination(COIN_VALUE);
             coin.setCount(denominationCount);
             coins.add(coin);
         }
 
+        if(penceRemaining > 0)
+        {
+            throw new InsufficientCoinageException("Not enough coins to finish the operation!");
+        }
 
+        Map<String, String> coinsRemaining = new HashMap<String, String>();
+
+        for(int i = 0; i < COIN_VALUES.size(); i++)
+        {
+            coinsRemaining.put(String.valueOf(COIN_VALUES.get(i)), String.valueOf(coins.get(i).getCount()));
+        }
+
+        propertiesManager.updateProperties(coinsRemaining);
 
         return coins;
     }

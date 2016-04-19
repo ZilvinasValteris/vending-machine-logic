@@ -135,18 +135,6 @@ public class ChangeCalculatorTest {
         List<Coin> coins = (List<Coin>) changeCalculator.getChangeFor(1200);
         List<Integer> coinCount = new ArrayList<Integer>();
 
-//        Map<Integer, Integer> coinsAvailable = new HashMap<Integer, Integer>();
-//        coinsAvailable.put(100, 11);
-//        coinsAvailable.put(50, 24);
-//        coinsAvailable.put(20, 0);
-//        coinsAvailable.put(10, 99);
-//        coinsAvailable.put(5, 200);
-//        coinsAvailable.put(2, 11);
-//        coinsAvailable.put(1, 23);
-//
-//        PropertiesManager propertiesManager = mock(PropertiesManager.class);
-//        when(propertiesManager.loadProperties()).thenReturn(coinsAvailable);
-
         for (Coin coin: coins)
         {
             coinCount.add(coin.getCount());

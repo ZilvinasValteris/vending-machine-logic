@@ -39,8 +39,6 @@ public class PropertiesManagerTest {
         assertEquals(expectedCoinsAvailable, actualCoinsAvailable);
     }
 
-
-
     // You'll need to read values from properties file after the update to test this properly
     @Test
     public void updatePropertiesTest() throws IOException {
@@ -54,6 +52,5 @@ public class PropertiesManagerTest {
         expectedCoinsAvailable.put("1", "0");
 
         propertiesManager.updateProperties(expectedCoinsAvailable);
-
     }
 }

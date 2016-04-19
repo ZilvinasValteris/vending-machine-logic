@@ -19,7 +19,7 @@ public class PropertiesManager {
     public Map<Integer, Integer> loadProperties() throws IOException
     {
         Map<Integer, Integer> coinsAvailable = new HashMap<Integer, Integer>();
-        FileInputStream inputStream = new FileInputStream(propertiesFileName); //getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+        FileInputStream inputStream = new FileInputStream(propertiesFileName);
 
         if(inputStream != null)
         {
@@ -57,6 +57,7 @@ public class PropertiesManager {
         {
             String key = COIN_VALUES.get(i);
             String value = coinsRemaining.get(key);
+            System.out.println("key: " + key + ", value: " + value);
             properties.setProperty(key, value);
         }
 

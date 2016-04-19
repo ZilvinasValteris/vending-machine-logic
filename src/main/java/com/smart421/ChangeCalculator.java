@@ -1,9 +1,7 @@
 package com.smart421;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 public class ChangeCalculator {
 
@@ -36,10 +34,39 @@ public class ChangeCalculator {
     // What is the standard practice reading from the properties file? Do I need a separate service/class for that?
     // Shall use in-class map of coins just to nail the logic first?
     // TODO: throw InsufficientCoinageException
-    public Collection<Coin> getChangeFor(int pence)
+    public Collection<Coin> getChangeFor(int pence) throws IOException
     {
+
         PropertiesManager propertiesManager = new PropertiesManager("coin-inventory.properties");
-        return null;
+
+        Map<Integer, Integer> coinsAvailable = propertiesManager.loadProperties();
+
+
+        // Filthy copy from the method above for now!!!
+
+        Coin coin;
+        int denominationCount;
+        int penceRemaining = pence;
+        Collection<Coin> coins = new ArrayList<Coin>();
+
+        for(int i = 0; i < COIN_VALUES.size(); i++)
+        {
+            denominationCount = penceRemaining/COIN_VALUES.get(i);
+            if(denominationCount > coinsAvailable.get(COIN_VALUES.get(i)))
+            {
+                denominationCount = coinsAvailable.get(COIN_VALUES.get(i));
+            }
+            penceRemaining = penceRemaining - denominationCount * COIN_VALUES.get(i);
+
+            coin = new Coin();
+            coin.setDenomination(COIN_VALUES.get(i));
+            coin.setCount(denominationCount);
+            coins.add(coin);
+        }
+
+
+
+        return coins;
     }
 
 

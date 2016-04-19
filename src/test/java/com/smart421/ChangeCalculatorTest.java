@@ -3,6 +3,7 @@ package com.smart421;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -122,6 +123,23 @@ public class ChangeCalculatorTest {
         }
 
         List<Integer> expectedCoinCount = Arrays.asList(0, 0, 0, 0, 0, 0, 0);
+        assertEquals(expectedCoinCount, coinCount);
+    }
+
+
+    // This test (code design) is very brittle since it relies on the values in the main properties file that can change.
+    // I should at least be able to use test.properties file for tests instead of the real one
+    @Test
+    public void getChangeForTest() throws IOException {
+        List<Coin> coins = (List<Coin>) changeCalculator.getChangeFor(1200);
+        List<Integer> coinCount = new ArrayList<Integer>();
+
+        for (Coin coin: coins)
+        {
+            coinCount.add(coin.getCount());
+        }
+
+        List<Integer> expectedCoinCount = Arrays.asList(11, 2, 0, 0, 0, 0, 0);
         assertEquals(expectedCoinCount, coinCount);
     }
 

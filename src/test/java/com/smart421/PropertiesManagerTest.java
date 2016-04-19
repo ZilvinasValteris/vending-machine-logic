@@ -16,6 +16,7 @@ public class PropertiesManagerTest {
     @Before
     public void setup()
     {
+        //TODO: Shall I just create properties file and delete it after the test instead?
         propertiesManager = new PropertiesManager("test.properties");
     }
 

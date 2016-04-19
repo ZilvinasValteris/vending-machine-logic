@@ -40,9 +40,6 @@ public class PropertiesManager {
             {
                 Integer key = Integer.parseInt(coinValues.get(i));
                 Integer value = Integer.parseInt(properties.getProperty(coinValues.get(i)));
-
-                System.out.println("key: " + key + ", value: " + value);
-
                 coinsAvailable.put(key, value);
             }
         }
